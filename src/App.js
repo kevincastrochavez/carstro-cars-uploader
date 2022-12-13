@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { db } from './firebase';
 
 function App() {
   const formCar = useRef(null);
@@ -35,7 +36,14 @@ function App() {
       color: colorInput.current.value,
     };
 
-    formCar.current.reset();
+    db.collection('cars')
+      .add(car)
+      .then((result) => {
+        formCar.current.reset();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
